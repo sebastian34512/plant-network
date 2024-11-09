@@ -1,8 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { fetchEvents, fetchPlantHighlights } from "./services/post-service";
 
 function App() {
+  useEffect(() => {
+    fetchEvents().then((events) => {
+      console.log(events);
+    });
+    fetchPlantHighlights().then((highlights) => {
+      console.log(highlights);
+    });
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
