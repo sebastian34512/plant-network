@@ -1,46 +1,27 @@
-# Getting Started with Create React App
+# Plant network for the Moonshiners coding challenge
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Planned approach
 
-## Available Scripts
+1. Create repo with create-react-app with typescript
+2. Add docker-compose.yaml that starts container with wordpress
+3. Deploy docker-compose to server
+4. Create sub domain that points to wordpress
+5. Add custom post types and fields in wordpress functions.php
+6. Build the UI
 
-In the project directory, you can run:
+## Actual approach
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. Created repo with create-react-app with template typescript and name it "plant-network"
+2. Copied the docker-compose for wordpress from docker hub, adjustet it and copied it to my live server
+3. Created a sub domain plant-network-api.sebastiankoller.at and pointed it to my server
+4. Added a reverse proxy with Caddy
+5. Started docker-compose and logged into wordpress
+6. Create custom theme with functions.php, style.css and index.php and mounted it in the container
+7. Published a sample post and tried to fetch it
+8. Installed the JWT Authentication for WP-API plugin
+9. Copied the wp-config.php with docker cp plant_wordpress:/var/www/html/wp-config.php ~/Documents/plantNetwork/wp-config.php and mountet it in the container
+10. Added the jwt secret to wp-config.php
+11. Tried to fetch a token and create a post with postman
+12. Added Swagger plugin
+13. Tried to generate types with Makefile, but genereated code doesn't contain custom field types, so removed it again.
+14. Created types and service methods.
