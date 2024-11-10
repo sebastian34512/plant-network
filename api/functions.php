@@ -51,6 +51,7 @@ function render_plant_meta_box($post) {
     $region = get_post_meta($post->ID, 'region', true);
     $poisonous = get_post_meta($post->ID, 'poisonous', true);
     $light_level = get_post_meta($post->ID, 'light_level', true);
+    $image_url = get_post_meta($post->ID, 'image_url', true);
     ?>
     <label>Name:</label>
     <input type="text" name="name" value="<?php echo esc_attr($name); ?>" /><br>
@@ -69,6 +70,9 @@ function render_plant_meta_box($post) {
     
     <label>Light Level:</label>
     <input type="text" name="light_level" value="<?php echo esc_attr($light_level); ?>" /><br>
+
+    <label>Image Url:</label>
+    <input type="text" name="image_url" value="<?php echo esc_attr($image_url); ?>" /><br>
     <?php
 }
 
@@ -79,6 +83,8 @@ function render_event_meta_box($post) {
     $location = get_post_meta($post->ID, 'location', true);
     $date = get_post_meta($post->ID, 'date', true);
     $description = get_post_meta($post->ID, 'description', true);
+    $image_url = get_post_meta($post->ID, 'image_url', true);
+
     ?>
     <label>Name:</label>
     <input type="text" name="name" value="<?php echo esc_attr($name); ?>" /><br>
@@ -91,6 +97,9 @@ function render_event_meta_box($post) {
     
     <label>Description:</label>
     <textarea name="description"><?php echo esc_textarea($description); ?></textarea><br>
+
+    <label>Image Url:</label>
+    <input type="text" name="image_url" value="<?php echo esc_attr($image_url); ?>" /><br>
     <?php
 }
 
@@ -120,11 +129,21 @@ function save_custom_fields_data($post_id) {
     if (array_key_exists('date', $_POST)) {
         update_post_meta($post_id, 'date', sanitize_text_field($_POST['date']));
     }
+    if (array_key_exists('image_url', $_POST)) {
+        update_post_meta($post_id, 'image_url', sanitize_text_field($_POST['image_url']));
+    }
 }
 add_action('save_post', 'save_custom_fields_data');
 
 // Custom Fields zur REST API hinzufügen
 function register_custom_fields() {
+    // Common Custom Fields
+    register_meta('post', 'image_url', array(
+        'show_in_rest' => true,
+        'type' => 'string',
+        'single' => true,
+    ));
+
     // Custom Fields für Plant Highlight
     register_meta('post', 'name', array(
         'show_in_rest' => true,
