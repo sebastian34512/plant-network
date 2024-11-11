@@ -1,6 +1,12 @@
 import { AppBar, Button, Toolbar, Typography } from "@mui/material";
+import { fetchToken } from "../services/post-service";
 
-export const Navbar = () => {
+interface NavbarProps {
+  token?: string;
+  setToken: (token: string) => void;
+}
+
+export const Navbar = (props: NavbarProps) => {
   return (
     <AppBar
       position="static"
@@ -32,8 +38,13 @@ export const Navbar = () => {
               backgroundColor: "rgba(255, 255, 255, 0.1)",
             },
           }}
+          onClick={
+            props.token === undefined || props.token === ""
+              ? () => fetchToken().then(props.setToken)
+              : () => props.setToken("")
+          }
         >
-          Login
+          {props.token === undefined || props.token === "" ? "Login" : "Logout"}
         </Button>
       </Toolbar>
     </AppBar>

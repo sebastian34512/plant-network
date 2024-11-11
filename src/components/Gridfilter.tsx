@@ -22,7 +22,13 @@ interface GridfilterProps {
 
 export const Gridfilter = (props: GridfilterProps) => {
   return (
-    <Box display="flex" justifyContent="space-around" mb={2}>
+    <Box
+      display="flex"
+      justifyContent="space-around"
+      mb={2}
+      flexWrap={{ xs: "wrap", sm: "nowrap" }}
+      gap={2}
+    >
       <Button
         variant="outlined"
         size="small"

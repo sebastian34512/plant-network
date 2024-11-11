@@ -6,6 +6,7 @@ import { Box, SelectChangeEvent } from "@mui/material";
 import { Navbar } from "./components/Navbar";
 import { Cardgrid } from "./components/Cardgrid";
 import { Gridfilter } from "./components/Gridfilter";
+import { AdminPanel } from "./components/AdminPanel";
 
 function App() {
   const [events, setEvents] = useState<PlantEvent[]>([]);
@@ -16,6 +17,7 @@ function App() {
   const [category, setCategory] = useState<"all" | "highlight" | "event">(
     "all",
   );
+  const [token, setToken] = useState("");
 
   const handleSortToggle = () => {
     setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
@@ -63,10 +65,11 @@ function App() {
       className="App"
       style={{
         backgroundColor: "rgba(0, 200, 0, 0.1)",
-        height: "100vh",
+        height: "auto",
       }}
     >
-      <Navbar />
+      <Navbar token={token} setToken={setToken} />
+      {token !== "" && <AdminPanel token={token} />}
       <Box display="flex" justifyContent="center" mt={3}>
         <Box
           borderRadius={2}

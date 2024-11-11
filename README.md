@@ -29,3 +29,5 @@
 16. Create Card Components
 17. Create Card Grid Component
 18. Create Filter Components
+19. Make UI responsive
+20. Add Admin Panel
