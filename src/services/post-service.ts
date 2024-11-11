@@ -47,6 +47,7 @@ export async function createPlantHighlight(
     `${API_URL}/wp/v2/plant-highlight`,
     {
       ...data,
+      title: data.title.rendered,
       status: "publish",
     },
     {
@@ -67,6 +68,7 @@ export async function createPlantEvent(
     `${API_URL}/wp/v2/event`,
     {
       ...data,
+      title: data.title.rendered,
       status: "publish",
     },
     {

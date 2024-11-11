@@ -13,7 +13,7 @@ function App() {
   const [highlights, setHighlights] = useState<PlantHighlight[]>([]);
   const [filteredItems, setFilteredItems] = useState<PlantItem[]>([]);
   const [filter, setFilter] = useState("");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [category, setCategory] = useState<"all" | "highlight" | "event">(
     "all",
   );
@@ -55,9 +55,13 @@ function App() {
     applyFilterAndSort();
   }, [events, highlights, filter, sortOrder, category]);
 
-  useEffect(() => {
+  const fetchPosts = () => {
     fetchEvents().then(setEvents);
     fetchPlantHighlights().then(setHighlights);
+  };
+
+  useEffect(() => {
+    fetchPosts();
   }, []);
 
   return (
@@ -69,12 +73,13 @@ function App() {
       }}
     >
       <Navbar token={token} setToken={setToken} />
-      {token !== "" && <AdminPanel token={token} />}
+      {token !== "" && <AdminPanel token={token} callback={fetchPosts} />}
       <Box display="flex" justifyContent="center" mt={3}>
         <Box
           borderRadius={2}
           boxShadow={2}
           p={3}
+          marginBottom={3}
           sx={{
             backgroundColor: "rgba(255, 255, 255, 0.9)",
             width: { xs: "90%", sm: "80%", md: "78%", lg: "60%", xl: "50%" },

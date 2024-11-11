@@ -23,7 +23,7 @@ import {
 } from "../services/post-service";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
-export const AdminPanel = (props: { token: string }) => {
+export const AdminPanel = (props: { token: string; callback: () => void }) => {
   const [value, setValue] = React.useState("1");
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -79,10 +79,10 @@ export const AdminPanel = (props: { token: string }) => {
                   </TabList>
                 </Box>
                 <TabPanel value="1">
-                  <EventForm token={props.token} />
+                  <EventForm token={props.token} callback={props.callback} />
                 </TabPanel>
                 <TabPanel value="2">
-                  <HighlighForm token={props.token} />
+                  <HighlighForm token={props.token} callback={props.callback} />
                 </TabPanel>
               </TabContext>
             </Box>
@@ -93,7 +93,7 @@ export const AdminPanel = (props: { token: string }) => {
   );
 };
 
-const EventForm = (props: { token: string }) => {
+const EventForm = (props: { token: string; callback: () => void }) => {
   const [eventData, setEventData] = React.useState<
     Omit<PlantEvent, "id" | "date" | "type">
   >({
@@ -119,6 +119,7 @@ const EventForm = (props: { token: string }) => {
           image_url: "",
         },
       });
+      props.callback();
     } catch (error) {
       console.error("Fehler beim Erstellen des Events:", error);
     }
@@ -204,7 +205,7 @@ const EventForm = (props: { token: string }) => {
   );
 };
 
-const HighlighForm = (props: { token: string }) => {
+const HighlighForm = (props: { token: string; callback: () => void }) => {
   const [highlightData, setHighlightData] = React.useState<
     Omit<PlantHighlight, "id" | "date" | "type">
   >({
@@ -236,6 +237,7 @@ const HighlighForm = (props: { token: string }) => {
           image_url: "",
         },
       });
+      props.callback();
     } catch (error) {
       console.error("Fehler beim Erstellen des Highlights:", error);
     }
