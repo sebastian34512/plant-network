@@ -1,8 +1,5 @@
 // Typ für PlantHighlight
-export interface PlantHighlight {
-  id: number;
-  title: { rendered: string };
-  date: Date;
+export interface PlantHighlight extends PlantItem {
   meta: {
     name?: string;
     description?: string;
@@ -15,10 +12,7 @@ export interface PlantHighlight {
 }
 
 // Typ für Event
-export interface PlantEvent {
-  id: number;
-  title: { rendered: string };
-  date: Date;
+export interface PlantEvent extends PlantItem {
   meta: {
     name?: string;
     location?: string;
@@ -26,4 +20,12 @@ export interface PlantEvent {
     description?: string;
     image_url?: string;
   };
+}
+
+export interface PlantItem {
+  id: number;
+  title: { rendered: string };
+  date: Date;
+  type: "event" | "highlight";
+  meta: {};
 }

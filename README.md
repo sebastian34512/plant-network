@@ -25,3 +25,7 @@
 12. Added Swagger plugin
 13. Tried to generate types with Makefile, but genereated code doesn't contain custom field types, so removed it again.
 14. Created types and service methods.
+15. Create Appbar
+16. Create Card Components
+17. Create Card Grid Component
+18. Create Filter Components

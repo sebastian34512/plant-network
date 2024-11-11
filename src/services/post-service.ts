@@ -7,6 +7,7 @@ export async function fetchPlantHighlights(): Promise<PlantHighlight[]> {
   );
   response.data.forEach((highlight) => {
     highlight.date = new Date(highlight.date);
+    highlight.type = "highlight";
   });
   return response.data;
 }
@@ -17,6 +18,7 @@ export async function fetchEvents(): Promise<PlantEvent[]> {
   );
   response.data.forEach((event) => {
     event.date = new Date(event.date);
+    event.type = "event";
   });
   return response.data;
 }

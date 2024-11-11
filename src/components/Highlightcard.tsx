@@ -12,7 +12,7 @@ export const Highlightcard = (props: { plant: PlantHighlight }) => {
       sx={{
         width: {
           xs: "90%",
-          sm: 300,
+          sm: 340,
           md: 345,
         },
         backgroundColor: "rgba(0, 40, 0, 0.1)",

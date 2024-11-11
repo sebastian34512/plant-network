@@ -1,35 +1,61 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import { fetchEvents, fetchPlantHighlights } from "./services/post-service";
-import { PlantEvent, PlantHighlight } from "./types/post-types";
-import { Box, Grid2, TextField } from "@mui/material";
-import { Eventcard } from "./components/Eventcard";
-import { Highlightcard } from "./components/Highlightcard";
+import { PlantEvent, PlantHighlight, PlantItem } from "./types/post-types";
+import { Box, SelectChangeEvent } from "@mui/material";
 import { Navbar } from "./components/Navbar";
 import { Cardgrid } from "./components/Cardgrid";
+import { Gridfilter } from "./components/Gridfilter";
 
 function App() {
   const [events, setEvents] = useState<PlantEvent[]>([]);
   const [highlights, setHighlights] = useState<PlantHighlight[]>([]);
+  const [filteredItems, setFilteredItems] = useState<PlantItem[]>([]);
   const [filter, setFilter] = useState("");
-
-  const filteredEvents = events.filter((event) =>
-    event.title.rendered.toLowerCase().includes(filter.toLowerCase()),
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [category, setCategory] = useState<"all" | "highlight" | "event">(
+    "all",
   );
 
-  const filteredHighlights = highlights.filter((highlight) =>
-    highlight.title.rendered.toLowerCase().includes(filter.toLowerCase()),
-  );
+  const handleSortToggle = () => {
+    setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
+  };
+
+  const handleCategoryChange = (event: SelectChangeEvent) => {
+    setCategory(event.target.value as "all" | "highlight" | "event");
+  };
 
   useEffect(() => {
-    fetchEvents().then((events) => {
-      console.log(events);
-      setEvents(events);
-    });
-    fetchPlantHighlights().then((highlights) => {
-      console.log(highlights);
-      setHighlights(highlights);
-    });
+    const applyFilterAndSort = () => {
+      const filterAndSort = (items: PlantItem[]) =>
+        items
+          // Filter by title
+          .filter((item) =>
+            item.title.rendered.toLowerCase().includes(filter.toLowerCase()),
+          )
+          // Filter by category
+          .filter((item) => {
+            if (category === "all") return true;
+            if (category === "highlight") return item.type === "highlight";
+            if (category === "event") return item.type === "event";
+            return true;
+          })
+          // Sort by date
+          .sort((a, b) =>
+            sortOrder === "asc"
+              ? a.date.getTime() - b.date.getTime()
+              : b.date.getTime() - a.date.getTime(),
+          );
+
+      setFilteredItems(filterAndSort([...events, ...highlights]));
+    };
+
+    applyFilterAndSort();
+  }, [events, highlights, filter, sortOrder, category]);
+
+  useEffect(() => {
+    fetchEvents().then(setEvents);
+    fetchPlantHighlights().then(setHighlights);
   }, []);
 
   return (
@@ -48,22 +74,17 @@ function App() {
           p={3}
           sx={{
             backgroundColor: "rgba(255, 255, 255, 0.9)",
-            width: { xs: "90%", sm: "80%", md: "75%", lg: "60%", xl: "50%" },
+            width: { xs: "90%", sm: "80%", md: "78%", lg: "60%", xl: "50%" },
           }}
         >
-          <Box display="flex" justifyContent="center" mb={2}>
-            <TextField
-              label="Filter events"
-              variant="outlined"
-              size="small"
-              onChange={(e) => setFilter(e.target.value)}
-              sx={{ width: { xs: "100%", sm: "50%" } }}
-            />
-          </Box>
-          <Cardgrid
-            plantEvents={filteredEvents}
-            highlights={filteredHighlights}
+          <Gridfilter
+            sortOrder={sortOrder}
+            category={category}
+            handleSortToggle={handleSortToggle}
+            handleCategoryChange={handleCategoryChange}
+            setFilter={setFilter}
           />
+          <Cardgrid plantItems={filteredItems} />
         </Box>
       </Box>
     </div>
